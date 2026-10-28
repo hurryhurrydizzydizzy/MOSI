@@ -210,5 +210,3 @@ Change product assumptions in `products.py`, targets and emergency percentage in
 - **Coverage gaps:** Existing tests do not directly establish exact emergency threshold behavior, fallback selection when no strategy qualifies, invalid-input handling, or numerical chart accuracy. The review added an ad hoc emergency timing check, but no persistent test changes.
 
 The implementation supports its current default experiment. General-purpose input handling, calibrated assumptions, stronger statistical qualification, and an explicit decision on horizon accounting remain necessary for a more robust decision tool.
-#   M O S I  
- 
