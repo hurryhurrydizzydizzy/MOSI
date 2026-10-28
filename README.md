@@ -33,7 +33,9 @@ $env:PYTHONPATH = (Resolve-Path .\MOSI).Path
 .\.venv\Scripts\python.exe -m MOSI.research_analysis
 ```
 
-If using an existing Python environment, substitute `python` for `.\.venv\Scripts\python.exe` in these commands. The `PYTHONPATH` setting is for the current PowerShell session: most files use `MOSI.*` imports, while `research_analysis.py` and `test_research.py` still use unqualified imports such as `from products import PRODUCTS`. Keeping both the parent working directory and the source folder available allows both styles to resolve. Running `python MOSI/main.py` directly can fail to resolve `MOSI`; use the module commands above.
+If using an existing Python environment, substitute `python` for `.\.venv\Scripts\python.exe` in these commands. The `PYTHONPATH` setting is for the current PowerShell session: `main.py` uses `MOSI.*` imports, while the other source and test files use unqualified sibling imports such as `from products import PRODUCTS`. Keeping both the parent working directory and the source folder available allows both styles to resolve. Running `python MOSI/main.py` directly can fail to resolve `MOSI`; use the module commands above.
+
+If your terminal is already inside the source folder (`D:\Documents\MOSI\MOSI`), `python research_analysis.py`, `python graphs.py`, and `python test_research.py` work directly with an environment containing the dependencies. Their output folders are then created inside that source folder. For `main.py`, use the parent-directory setup above because its imports still require the package name.
 
 `requirements.txt` lists NumPy, pandas, and Matplotlib. The current implementation uses Matplotlib for charts and Python's standard library for the simulation and statistics; NumPy and pandas are currently unused. Dependency versions are not pinned.
 
@@ -199,6 +201,32 @@ The product output distinguishes `Target Met` (estimated risk at most 5%) from `
 
 CSV numeric values are rounded to two decimal places; service flags are calculated before rounding. Files with the same names are overwritten. `mean_ci()` returns `(mean, lower, upper)`; with one value all three are equal. A zero-variance sample, including all-zero observed shortages, produces a zero-width interval, so the support flag should not be interpreted as proof of the true stockout probability.
 
+### Research configuration
+
+| Setting in `research_analysis.py` | Default | Purpose |
+| --- | --- | --- |
+| `TRIALS` | `10000` | Number of independent four-week demand scenarios. Each scenario is evaluated under all three policies. |
+| `SEED` | `42` | Resets Python's global random state at the start of each research run. |
+| `TRANSPORT_COST` | `200` | PHP charged per purchasing trip before allocation. |
+| `TRANSPORT_SHARE` | `0.50` | Fraction of the trip expense assigned to the modeled products. |
+| `STRATEGIES` | Three policies | Mapping from strategy name to stock targets and emergency flag. |
+
+For a smaller research run, use this command from the parent directory after setting `PYTHONPATH` as shown above:
+
+```powershell
+python -c "from MOSI.research_analysis import run_research_analysis; run_research_analysis(trials=100)"
+```
+
+This command still writes both CSV files and replaces any existing files at those output paths. It prints saved paths; printing all returned rows is part of the script entry point, rather than the function itself. There is no `--trials` command-line option. Passing `trials=` explicitly overrides the function's default; changing the module's `TRIALS` variable after import does not change an already-bound default argument.
+
+### Interpreting the research tables
+
+Weekly risk and fulfillment columns contain percentages from 0 to 100. `Avg Unfulfilled (4 weeks)` and `Avg Purchased (4 weeks)` are unit counts over 28 days; `Avg Ending Stock` is inventory after the final Sunday replenishment. Strategy profit, purchase cost, and transport columns are PHP over four weeks, and trip counts are four-week averages. Fractional averages are expected even though each individual purchase and trip count is discrete.
+
+For example, a product with a 4.8% estimated weekly risk and an interval upper bound of 5.2% has `Target Met=True` and `CI Supports Target=False`. The point estimate passes the threshold while the reported interval crosses it. A high unit fulfillment rate can coexist with frequent stockout weeks when those shortages involve only a small number of units.
+
+Repeated research calls with the same trial count, seed, code, and Python environment should return identical rows. Core console, chart, and research runs remain separate experiments unless explicitly given matching random states. Research execution also resets the shared random generator, so calling it inside a longer Python session affects subsequent random draws.
+
 ## Testing
 
 The existing tests use Python assertions and do not require pytest. From the parent directory, after installing dependencies:
@@ -217,7 +245,7 @@ python -m MOSI.test_research
 
 They cover demand bounds, busy-day counts, inventory conservation, zero and excessive demand, Sunday replenishment, statistical output bounds, financial arithmetic, strategy selection with qualifying candidates, and chart creation. The research test additionally checks daily accounting, equal demand across policies sharing a scenario, and a constant-sample interval. Some tests print extensively. `test_graphs.py` runs the full 10,000-trial comparison and overwrites chart outputs. The scripts execute checks on import as well as when launched directly.
 
-On October 28, 2026, all eight test modules passed using the documented import-path setup. A separate 100-trial research smoke check completed and exported 15 product rows and three strategy rows. These checks ran in a temporary output directory to preserve existing charts and CSV files. The research smoke check did not run the full default 10,000-trial research experiment.
+On October 28, 2026, all eight test modules passed using the documented import-path setup after the latest import changes. Two separate 100-trial research calls each exported 15 product rows and three strategy rows, and returned identical rows, confirming repeatability for that check. These checks ran in a temporary output directory to preserve existing charts and CSV files. The research smoke check did not run the full default 10,000-trial research experiment.
 
 ## Reproducibility and customization
 
@@ -245,7 +273,7 @@ Change product assumptions in `products.py`, targets and emergency percentage in
 - **Input validation:** Trial counts must be positive integers. Zero trials in the core analysis and an empty `confidence_interval()` input raise `ZeroDivisionError`; empty research samples passed to `mean_ci()` raise `statistics.StatisticsError`. Custom demand, target mappings, transport allocation, and supplied weeks are not validated. Malformed data may fail or produce invalid results.
 - **Fixed product count:** Service qualification and console messages assume five products. Adding or removing products requires updating that logic as well as configuration.
 - **Statistical qualification:** Core strategy selection uses point estimates at the 5% boundary. Research exports add an approximate interval-based support flag, but selection does not use it. All reported intervals use a normal approximation, which is less reliable for small or zero-variance samples. Observing zero shortages does not prove the true probability is zero. The project does not report paired confidence intervals for profit differences between policies.
-- **Import consistency:** Core files use package imports, but research files use unqualified sibling imports. The documented session setup supports both; consistent package imports would simplify execution.
+- **Import consistency:** `main.py` uses package imports, while other modules use unqualified sibling imports. The documented session setup supports both; consistent imports would simplify execution and avoid loading the same source under different module names.
 - **Model validation:** Demand distributions and busy-day frequency have not been calibrated here against historical sales or unmet-demand records. Financial outputs exclude several operating expenses and inventory financing effects.
 - **Coverage gaps:** Existing tests do not directly establish exact emergency threshold behavior, fallback selection when no strategy qualifies, invalid-input handling, or numerical chart accuracy. The review added an ad hoc emergency timing check, but no persistent test changes.
 
