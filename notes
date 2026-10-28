@@ -1,0 +1,32 @@
+Units Sold = min(Demand, Available Stock)
+S = min(D,i)
+
+Unfulfilled Demand = max(0, Demand - Available Stocks)
+U = D - S
+
+Remaining Stock = Available Stock - Units Sold
+Inew = I - S
+
+where D = Daily Demand, IO  = Inventory available at start of day
+
+Fulfillment Rate = (Units Sold / Total Demand) x 100
+
+SUnday replenishment:
+Q = max(0, T - I)
+
+where Q = purchasing quantity, T = target stock, I = remaining inventory
+
+P(weekly stockout) <= 5%
+
+STRATEGIES:
+A = SUNDAY ONLY replenishment
+C = EMERGENCY replenishment
+    Process the day's customer demand.
+    Check whether a product's remaining stock has fallen to 20% or less of its target.
+    If so, make an emergency purchase after closing.
+    Restore all products currently at or below their emergency thresholds to their targets.
+    Make the purchased stock available the following morning.
+
+Gross PRofit = summation(Units Sold x Profit per Unit)
+Profit after transportation(200 pesos) = P = GP - (N x 200 x A)
+where GP = Gross Profit, N = Avg. no of purchasing trips, A transport allocation(0, 0.5, 1)
