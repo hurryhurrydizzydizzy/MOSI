@@ -1,9 +1,9 @@
 import os
 import matplotlib.pyplot as plt  # type: ignore[reportMissingModuleSource]
 
-from MOSI.products import PRODUCTS
-from MOSI.analysis import compare_strategies
-from MOSI.financial import analyze_finances
+from products import PRODUCTS
+from analysis import compare_strategies
+from financial import analyze_finances
 
 
 def create_graphs():

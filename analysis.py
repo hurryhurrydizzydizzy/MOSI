@@ -1,8 +1,8 @@
 import math
-from MOSI.products import PRODUCTS
-from MOSI.simulation import simulate_four_weeks
-from MOSI.simulation import generate_week
-from MOSI.strategies import SUNDAY_ONLY, RISK_BASED
+from products import PRODUCTS
+from simulation import simulate_four_weeks
+from simulation import generate_week
+from strategies import SUNDAY_ONLY, RISK_BASED
 
 
 def confidence_interval(values):

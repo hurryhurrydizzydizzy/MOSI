@@ -1,5 +1,5 @@
 
-from MOSI.financial import (
+from financial import (
     analyze_finances,
     choose_best_strategy
 )

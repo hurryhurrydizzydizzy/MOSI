@@ -1,5 +1,5 @@
 import os
-from MOSI.graphs import create_graphs
+from graphs import create_graphs
 
 
 def test_graphs():

@@ -1,4 +1,4 @@
-from MOSI.products import PRODUCTS
+from products import PRODUCTS
 
 # Strategy A: Original stock targets
 SUNDAY_ONLY = {

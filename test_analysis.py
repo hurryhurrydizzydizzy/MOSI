@@ -1,8 +1,8 @@
-from MOSI.analysis import (
+from analysis import (
     confidence_interval,
     run_monte_carlo
 )
-from MOSI.products import PRODUCTS
+from products import PRODUCTS
 
 
 def test_confidence_interval():

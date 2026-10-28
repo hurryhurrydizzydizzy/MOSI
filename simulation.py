@@ -1,6 +1,6 @@
 import random
-from MOSI.products import PRODUCTS
-from MOSI.strategies import SUNDAY_ONLY, EMERGENCY_PERCENT
+from products import PRODUCTS
+from strategies import SUNDAY_ONLY, EMERGENCY_PERCENT
 
 DAYS = [
     "Monday", "Tuesday", "Wednesday",

@@ -1,6 +1,6 @@
 
-from MOSI.simulation import generate_week
-from MOSI.products import PRODUCTS
+from simulation import generate_week
+from products import PRODUCTS
 
 
 def test_week():
