@@ -1,6 +1,6 @@
 
-from analysis import compare_strategies
-from financial import (
+from MOSI.analysis import compare_strategies
+from MOSI.financial import (
     analyze_finances,
     choose_best_strategy
 )

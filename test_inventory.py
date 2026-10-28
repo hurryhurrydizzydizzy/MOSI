@@ -1,5 +1,5 @@
-from products import PRODUCTS
-from simulation import DAYS, simulate_week
+from MOSI.products import PRODUCTS
+from MOSI.simulation import DAYS, simulate_week
 
 
 def test_inventory():

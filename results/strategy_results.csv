@@ -1,0 +1,4 @@
+Strategy,Average Profit,Profit CI Lower,Profit CI Upper,Average Purchase Cost,Average Trips,Average Transport,Products Meeting Target,Targets Supported by CI
+Sunday Only,7318.94,7316.56,7321.31,24283.05,4,400.0,2,2
+Risk-Based,7506.49,7503.83,7509.16,24367.58,4,400.0,2,2
+Risk + Emergency,7140.96,7138.22,7143.7,24543.51,8.36,836.43,5,5

@@ -1,4 +1,4 @@
-from analysis import compare_strategies
+from MOSI.analysis import compare_strategies
 
 TRANSPORT_PER_TRIP = 200
 TARGET_RISK = 0.05

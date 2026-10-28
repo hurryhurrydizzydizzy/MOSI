@@ -1,8 +1,8 @@
 
-from products import PRODUCTS
-from simulation import DAYS, simulate_four_weeks
-from strategies import SUNDAY_ONLY, RISK_BASED
-from analysis import compare_strategies
+from MOSI.products import PRODUCTS
+from MOSI.simulation import DAYS, simulate_four_weeks
+from MOSI.strategies import SUNDAY_ONLY, RISK_BASED
+from MOSI.analysis import compare_strategies
 
 
 def test_strategies():

@@ -1,6 +1,6 @@
 
-from products import PRODUCTS
-from simulation import simulate_four_weeks
+from MOSI.products import PRODUCTS
+from MOSI.simulation import simulate_four_weeks
 
 
 def test_four_weeks():

@@ -1,0 +1,16 @@
+Strategy,Product,Weekly Risk (%),95% CI Lower (%),95% CI Upper (%),Fulfillment (%),Avg Unfulfilled (4 weeks),Avg Purchased (4 weeks),Avg Ending Stock,Target Met,CI Supports Target
+Sunday Only,Bottled Water,0.03,0.01,0.04,100.0,0.0,415.09,120,True,True
+Sunday Only,Soft Drinks,0.0,0,0.0,100.0,0,415.07,144,True,True
+Sunday Only,Pancit Canton,11.02,10.72,11.33,99.64,1.62,446.25,120,False,False
+Sunday Only,Magic Sarap,99.7,99.64,99.75,82.44,85.19,399.98,100,False,False
+Sunday Only,Candy,95.53,95.32,95.73,87.81,166.4,1198.53,300,False,False
+Risk-Based,Bottled Water,3.28,3.11,3.45,99.93,0.31,407.78,113,True,True
+Risk-Based,Soft Drinks,3.09,2.92,3.26,99.93,0.29,383.78,113,True,True
+Risk-Based,Pancit Canton,6.35,6.11,6.59,99.81,0.85,450.03,123,False,False
+Risk-Based,Magic Sarap,28.28,28.1,28.45,95.52,21.72,498.45,135,False,False
+Risk-Based,Candy,27.47,27.26,27.69,96.87,42.66,1403.27,381,False,False
+Risk + Emergency,Bottled Water,0.0,0,0.0,100.0,0,408.09,113,True,True
+Risk + Emergency,Soft Drinks,0.0,0,0.0,100.0,0,384.07,113,True,True
+Risk + Emergency,Pancit Canton,0.0,0,0.0,100.0,0,450.87,123,True,True
+Risk + Emergency,Magic Sarap,0.0,0,0.0,100.0,0,520.17,135,True,True
+Risk + Emergency,Candy,0.0,0,0.0,100.0,0,1445.93,381,True,True
